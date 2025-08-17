@@ -1,11 +1,14 @@
 package com.example.foro_api.domain.topico;
 
+import com.example.foro_api.domain.ValidacionException;
 import com.example.foro_api.domain.curso.CursoRepository;
 import com.example.foro_api.domain.models.Topico;
 import com.example.foro_api.domain.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -22,10 +25,6 @@ public class TopicoService {
     private CursoRepository cursoRepository;
 
 
-    /**
-     * Metodo encargado de enviar la solicitud
-     * @param datos
-     */
     public DatosDetalleTopico registrar(DatosRegistroTopico datos){
 
         var autor = usuarioRepository.getReferenceById(datos.idUsuario());
@@ -37,6 +36,25 @@ public class TopicoService {
         return new DatosDetalleTopico(topico);
     }
 
+    public List<DatosDetalleTopico> obtener(){
+
+        System.out.println("Pasó por aquí");
+
+        return repository.findAll().stream()
+                .map(t -> new DatosDetalleTopico(t.getId(),t.getTitulo(),t.getMensaje(),t.getFechaCreacion()))
+                .collect(Collectors.toList());
+    }
 
 
+    public DatosDetalleTopico detallar(Long id) {
+        var topico = repository.getReferenceById(id);
+
+        System.out.println("LLeog aqui");
+
+        if(topico == null){
+            throw new ValidacionException("No existe un tópico con el id proporcionado");
+        }
+
+        return new DatosDetalleTopico(topico);
+    }
 }

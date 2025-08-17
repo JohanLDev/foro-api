@@ -7,10 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/topicos")
@@ -26,6 +23,16 @@ public class TopicoController {
         DatosDetalleTopico datosDetalleTopico =  service.registrar(datos);
 
         return ResponseEntity.ok(datosDetalleTopico);
+    }
+
+    @GetMapping
+    public ResponseEntity obtener(){
+        return ResponseEntity.ok(service.obtener());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity detallar(@PathVariable Long id){
+        return ResponseEntity.ok(service.detallar(id));
     }
 
 }
