@@ -67,5 +67,4 @@ La API permite a los usuarios:
 
 ## 📑 Documentación Swagger
 
-Una vez levantado el proyecto, accede a la documentación interactiva en:
-
+Una vez levantado el proyecto, accede a la documentación interactiva en: http://localhost:8080/swagger-ui/index.html
