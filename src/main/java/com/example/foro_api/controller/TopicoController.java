@@ -4,6 +4,7 @@ import com.example.foro_api.domain.topico.DatosActualizacionTopico;
 import com.example.foro_api.domain.topico.DatosDetalleTopico;
 import com.example.foro_api.domain.topico.DatosRegistroTopico;
 import com.example.foro_api.domain.topico.TopicoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/topicos")
+@SecurityRequirement(name = "bearer-key")
 public class TopicoController {
 
 
