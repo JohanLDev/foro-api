@@ -38,8 +38,6 @@ public class TopicoService {
 
     public List<DatosDetalleTopico> obtener(){
 
-        System.out.println("Pasó por aquí");
-
         return repository.findAll().stream()
                 .map(t -> new DatosDetalleTopico(t.getId(),t.getTitulo(),t.getMensaje(),t.getFechaCreacion()))
                 .collect(Collectors.toList());
@@ -49,12 +47,39 @@ public class TopicoService {
     public DatosDetalleTopico detallar(Long id) {
         var topico = repository.getReferenceById(id);
 
-        System.out.println("LLeog aqui");
-
         if(topico == null){
             throw new ValidacionException("No existe un tópico con el id proporcionado");
         }
 
         return new DatosDetalleTopico(topico);
+    }
+
+    public DatosDetalleTopico actualizar(Long id, DatosActualizacionTopico datos) {
+
+        var topicoBuscado = repository.findById(id);
+
+        if(topicoBuscado.isEmpty()){
+           throw new ValidacionException("No se encontró un tópico con el id proporcionado");
+        }
+
+        var topico = topicoBuscado.get();
+        var usuarioBuscado = usuarioRepository.findById(datos.idUsuario());
+
+        if(usuarioBuscado.isEmpty()){
+            throw new ValidacionException("No existe un autor con el id proporcionado");
+        }
+
+        topico.actualizar(datos,usuarioBuscado.get());
+
+        return new DatosDetalleTopico(topico);
+    }
+
+    public void eliminar(Long id) {
+
+        if(!repository.existsById(id)){
+            throw new ValidacionException("Topico a eliminar no existe");
+        }
+
+        repository.deleteById(id);
     }
 }

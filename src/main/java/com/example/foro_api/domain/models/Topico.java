@@ -1,6 +1,7 @@
 package com.example.foro_api.domain.models;
 
 
+import com.example.foro_api.domain.topico.DatosActualizacionTopico;
 import com.example.foro_api.domain.topico.DatosRegistroTopico;
 import com.example.foro_api.domain.topico.EstadoTopico;
 import jakarta.persistence.*;
@@ -43,6 +44,7 @@ public class Topico {
 
     /**
      * Constructor para crear un nuevo topico a partir de datos registro topicos
+     *
      * @param datos
      * @param usuario
      */
@@ -55,4 +57,20 @@ public class Topico {
         this.estado = EstadoTopico.CREADO;
         this.curso = curso;
     }
+
+    public void actualizar(DatosActualizacionTopico datos, Usuario usuario) {
+
+        if(datos.mensaje() != null){
+            this.mensaje = datos.mensaje();
+        }
+
+        if(datos.titulo() != null){
+            this.titulo = datos.titulo();
+        }
+
+        if(usuario != null){
+            this.autor = usuario;
+        }
+    }
+
 }
